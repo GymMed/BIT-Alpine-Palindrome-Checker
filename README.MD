@@ -1,6 +1,6 @@
 ## Access Project Online
 
-This is BIT course task about creating Shopping Cart component. This project was created by using Alpine js and tailwindcss.
+This is BIT course task about creating palindrome word checker component. This project was created by using Alpine js and tailwindcss.
 
 -   [View](https://gymmed.github.io/BIT-Alpine-Palindrome-Checker/)!
 
