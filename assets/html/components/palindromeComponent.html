@@ -1,0 +1,83 @@
+<script>
+    window.palindromeComponentData = function () {
+        return {
+            palindromeWordValue: "",
+            showResults: false,
+            isSuccessfullResults: false,
+            resultsMessage: "",
+            checkPalindromeWord() {
+                this.showResults = true;
+
+                if (!this.palindromeWordValue) {
+                    this.isSuccessfullResults = false;
+                    this.resultsMessage =
+                        "You need to provide a word in order to check if it is palindrome!";
+                    return;
+                } else if (!/^[A-Za-z]+$/.test(this.palindromeWordValue)) {
+                    this.isSuccessfullResults = false;
+                    this.resultsMessage =
+                        "Only words can be checked!<br>No other symbols allowed!";
+                    return;
+                } else if (this.palindromeWordValue.length == 1) {
+                    this.isSuccessfullResults = false;
+                    this.resultsMessage =
+                        "You provided only one letter!<br>You need to provide a word!";
+                    return;
+                }
+
+                let lettersToMiddle = Math.floor(
+                    this.palindromeWordValue.length / 2
+                );
+                let firstHalf = this.palindromeWordValue
+                    .substring(0, lettersToMiddle)
+                    .toLowerCase();
+                let secondHalf = this.palindromeWordValue
+                    .substring(
+                        this.palindromeWordValue.length - lettersToMiddle,
+                        this.palindromeWordValue.length
+                    )
+                    .toLowerCase();
+                let fixedSecondHalf = secondHalf.split("").reverse().join("");
+
+                if (firstHalf !== fixedSecondHalf) {
+                    this.isSuccessfullResults = false;
+                    this.resultsMessage =
+                        "Your provided word is not palindrome type!";
+                    return;
+                }
+
+                this.isSuccessfullResults = true;
+                this.resultsMessage = "Your provided word is palindrome type!";
+            },
+        };
+    };
+</script>
+<div
+    x-data="palindromeComponentData();"
+    class="flex flex-col gap-2 shadow-lg w-80 px-3 py-5 rounded-lg bg-gradient-to-br from-purple-100 to-purple-300"
+>
+    <form action="" class="flex gap-2">
+        <input
+            type="text"
+            name="palindromeWord"
+            id="palindromeWord"
+            placeholder="Word . . ."
+            class="w-full h-full p-2 border-2 rounded-md placeholder-purple-400 focus:ring-purple-500 focus:ring focus:ring-offset-2 focus:ring-offset-white"
+            x-model="palindromeWordValue"
+        />
+        <button
+            type="button"
+            class="text-white bg-gradient-to-br from-purple-500 to-purple-700 hover:from-purple-700 hover:to-purple-900 rounded"
+            @click="checkPalindromeWord();"
+        >
+            <div class="hover:scale-110 px-4 py-1">Check</div>
+        </button>
+    </form>
+    <div
+        x-show="showResults"
+        x-html="resultsMessage"
+        class="p-3 text-white font-bold bg-gradient-to-br rounded-lg shadow-lg"
+        :class="{'from-green-500 to-green-700': isSuccessfullResults,
+            'from-red-500 to-red-700': !isSuccessfullResults}"
+    ></div>
+</div>
